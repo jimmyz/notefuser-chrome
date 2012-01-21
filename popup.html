@@ -1,0 +1,26 @@
+<style>
+body {
+  min-width:357px;
+  overflow-x:hidden;
+  background-color: #000;
+  color: white;
+  font: 11px Verdana, Arial, Helvetica, sans-serif;
+}
+
+a {
+	color: #5B920A;
+}
+
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+$.get('http://notefuser.herokuapp.com/user/authenticated',function(resp){
+  $('#notefuser_content').html(resp);
+});
+$('#notefuser_logout').live('click',function(){
+  $.get('http://notefuser.herokuapp.com/user/logout',function(resp){
+    $('#notefuser_content').html(resp);
+  });
+});
+</script>
+<div id="notefuser_content"></div>

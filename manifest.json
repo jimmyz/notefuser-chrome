@@ -1,0 +1,28 @@
+{
+  "name": "NoteFuser",
+  "version": "0.3",
+  "description": "An extension for linking Evernote® notes to FamilySearch and Geni person records.",
+  "content_scripts": [
+      {
+        "matches": ["https://new.familysearch.org/en/action/hourglassiconicview*"],
+        "css": [],
+        "js": ["jquery-1.7.1.min.js", "notefuser_familysearch.js"]
+      },
+      {
+        "matches": ["http://www.geni.com/people/*/*"],
+        "css": [],
+        "js": ["jquery-1.7.1.min.js", "notefuser_geni.js"]
+      }
+      
+  ],
+  "browser_action": {
+    "default_icon": "icon16.png",
+    "popup": "popup.html"
+  },
+  "icons": { "16": "icon16.png",
+             "48": "icon48.png",
+            "128": "icon128.png" },
+  "permissions": [
+    "http://notefuser.herokuapp.com/*"
+  ]
+}
