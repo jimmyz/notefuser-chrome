@@ -49,6 +49,7 @@ function notefuser_template(){
         "<div class=\"inner\">"+
           "<div class=\"hd basic_hd\">"+
             "<div class=\"supplemental\">"+
+              "<img alt=\"Transparent\" class=\"icn add_icn\" src=\"http://assets2.geni.com/images/transparent.gif?1310602807\"> <a href=\"#\" id=\"create_blank_note\">Create Blank Note</a><br/>"+
               "<img alt=\"Transparent\" class=\"icn add_icn\" src=\"http://assets2.geni.com/images/transparent.gif?1310602807\"> <a href=\"#\" id=\"create_research_log\">Create Research Log</a>"+
             "</div>"+
             "<h2>NoteFuser</h2>"+
@@ -81,11 +82,26 @@ function create_research_log() {
   return false;
 }
 
+function create_blank_note() {
+  $('#notefuser_alerts').html("Loading...");
+  id = get_focused_id();
+  name = $('span[itemprop="name"]').text();
+  name = $.trim(name);
+  console.log(name);
+  $.post('http://notefuser.herokuapp.com/notes',{id: id, name: name, locality: '', type: 'blank'},function(data){
+    $('#notefuser_alerts').html(data);
+    load_notes();
+  });
+  return false;
+}
+
+
 $('#noteFuser').live('click',load_notefuser_div);
 $('#profile_tabs li:not(li#noteFuserTab) a').live('click',function() {
   $('#notefuser_tab_content').hide();
 });
 $('#create_research_log').live('click',create_research_log);
+$('#create_blank_note').live('click',create_blank_note);
 $('.show_evernote').live('click',function(){
   guid = $(this).attr('rel');
   $('#note'+guid).toggle();

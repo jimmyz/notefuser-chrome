@@ -23,8 +23,11 @@ function get_focused_id () {
 
 function notefuser_template(){
   template = "<div id=\"note_fuser\">" +
-    "<h1>NoteFuser</h1>"+
-    "<div><a href=\"#\" id=\"create_research_log\">Create a Research Log</a></div>"+
+    "<h1 class=\"nf_header\">NoteFuser</h1>"+
+    "<div class=\"nf_controles\">"+
+      "<a href=\"#\" id=\"create_blank_note\"><img src=\"https://new.familysearch.org/gadgetrepo/org/familysearch/collaboration/df/DiscussionCpGadget/1.x/add_blue_v1.png\" width=\"13\" /> Create a Blank Note</a><br/>"+
+      "<a href=\"#\" id=\"create_research_log\"><img src=\"https://new.familysearch.org/gadgetrepo/org/familysearch/collaboration/df/DiscussionCpGadget/1.x/add_blue_v1.png\" width=\"13\" /> Create a Research Log</a>"+
+    "</div>"+
     "<div id=\"notefuser_alerts\"></div>"+
     "<div id=\"notefuser_notes\">Loading...</div>"+
   "</div>";
@@ -77,9 +80,26 @@ function create_research_log() {
   });
   return false;
 }
+function create_blank_note() {
+  focused_id = get_focused_id();
+  $.getJSON('https://new.familysearch.org/familytree/v2/person/'+focused_id+'?dataFormat=application/json',function(famtree){
+    person = famtree.persons[0]
+    id = 'fs.'+ person.id
+    name = person.assertions.names[0].value.forms[0].fullText
+    console.log(name);
+    $('#notefuser_notes').html('Loading...')
+    $.post('http://notefuser.herokuapp.com/notes',{id: id, name: name, type: 'blank'},function(data){
+      $('#notefuser_alerts').html(data);
+      load_notes();
+    });
+  });
+  return false;
+}
+
 
 $('#evernoteNav').live('click',load_notefuser_div);
 $('#create_research_log').live('click',create_research_log);
+$('#create_blank_note').live('click',create_blank_note);
 $('.show_evernote').live('click',function(){
   guid = $(this).attr('rel');
   $('#note'+guid).toggle();

@@ -1,0 +1,12 @@
+h1.nf_header {
+  width: 70%;
+  float:left;
+}
+div.nf_controles {
+  width: 30%;
+  margin-left: 70%;
+  text-align:left;
+}
+#notefuser_alerts {
+  clear:both;
+}
